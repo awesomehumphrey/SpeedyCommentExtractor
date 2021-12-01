@@ -2,3 +2,4 @@
 *.csv
 test-folder
 __pycache__
+.DS_Store
