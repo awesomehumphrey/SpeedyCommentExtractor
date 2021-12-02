@@ -151,6 +151,11 @@ makefile_comment = languages['makefile']
 shell_comment = languages['shell']
 perl_comment = languages['perl']
 
+def get_comment_from_path_using_all_languages(directory: str, output_dir: str):
+    for key in languages:
+        extract_comment_from_path(directory, languages[key], output_dir)
+
+
 def save_in_dict(line: str, location: str, language: str) -> dict:
     return {'line': line, 'location': location, 'language': language}
 
