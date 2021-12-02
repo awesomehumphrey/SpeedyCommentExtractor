@@ -11,6 +11,17 @@ sys.path.insert(0, parentdir)
 import app
 
 class test_app(unittest.TestCase):
+
+    def test_find_multiple_single_line_comment(self):
+        test_case = [
+            {'line': '// test', 'location': 'rand', 'language': app.c_comment},
+            {'line': '// test', 'location': 'rand', 'language': app.c_comment},
+            {'line': '// test', 'location': 'rand', 'language': app.c_comment},
+        ]
+
+        result = app.extract_comment_from_line_list(test_case, app.c_comment)
+        self.assertEqual(result[0]['line'], 'test test test ')
+
     def test_find_text_enclosed_inside(self):
         test_find = app.find_text_enclosed_inside('#test', '#')
         self.assertEqual('test', test_find)
@@ -63,7 +74,7 @@ class test_app(unittest.TestCase):
         test_case = app.extract_comment_from_line_list(line_list, app.python_comment)
         test_case = app.strip_comment_of_symbols(test_case[0]['line'], app.python_comment)
         test_case = app.remove_starting_whitespace(test_case)
-        self.assertEqual(test_case, 'line1 line2  ')
+        self.assertEqual(test_case, 'line1 line2 ')
 
     # def test_test_extract_comment_from_multi_line(self):
     #     line_list = [{'line: ''}]
@@ -80,7 +91,7 @@ class test_app(unittest.TestCase):
 
         test_case = app.extract_comment_from_line_list(line_list, app.c_comment)
         # TODO strip of symbols and whitespace for test1
-        self.assertEqual(test_case[-1]['line'], '* Initialize the state: *')
+        self.assertEqual(test_case[-1]['line'], 'Initialize the state:  ')
         test2 = app.strip_comment_of_symbols(test_case[0]['line'], app.c_comment)
         test2 = app.remove_starting_whitespace(test2)
         self.assertEqual(test2, 'Main encode function ')
@@ -96,7 +107,7 @@ class test_app(unittest.TestCase):
         test_case = app.extract_comment_from_line_list(line_list, app.c_comment)
         test2 = app.strip_comment_of_symbols(test_case[0]['line'], app.c_comment)
         test2 = app.remove_starting_whitespace(test2)
-        self.assertEqual(test2, 'Main encode function beep boop Initialize the state:  ')
+        self.assertEqual(test2, 'Main encode function beep boop Initialize the state: ')
 
 
     def test_check_trigger_multiline_comment_c(self):
@@ -188,7 +199,7 @@ class test_app(unittest.TestCase):
         test_case = app.extract_comment_from_line_list(comments, app.css_comment)
         result = app.strip_comment_of_symbols(test_case[0]['line'], app.css_comment)
         result = app.remove_starting_whitespace(result)
-        self.assertEqual(result, 'hello  ')
+        self.assertEqual(result, 'hello ')
 
 
     def test_check_trigger_none_multiline_comment_from_html(self):
