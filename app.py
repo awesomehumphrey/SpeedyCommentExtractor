@@ -4,7 +4,6 @@ import chardet
 from typing import TypeVar, Generic, List, NewType
 
 T = TypeVar("T")
-
 ###############################################################################
 #                    Dictionaries for programming languages                   #
 ###############################################################################
@@ -172,7 +171,7 @@ def auto_extract_comment_from_path(directory: str, language: dict, output_dir: s
     line_counter = 0
 
     # The maximum line of code for each csv file ###############################
-    languages = iterate_dictionary_for_header(languages)
+    # languages = iterate_dictionary_for_header(languages)
     files = []
     files = files + search_file('*' + language["format"], directory)
     max_line_per_file = 50000
@@ -345,12 +344,13 @@ def extract_comment_from_line_list(lines: List[T], language: dict) -> List[T]:
         multiple_singleline_comment = ""
 
     # Strip comment of symbols ####################################################
-    result = [save_in_dict(strip_comment_of_symbols(result['line'], language), result['location'], language['language']) for result in res]
+    # result = [save_in_dict(strip_comment_of_symbols(result['line'], language), result['location'], language['language']) for result in res]
 
     # Strip result of starting whitespace ########################################
-    comments = [save_in_dict(remove_starting_whitespace(comment['line']), comment['location'], language['language']) for comment in result]
+    # comments = [save_in_dict(remove_starting_whitespace(comment['line']), comment['location'], language['language']) for comment in result]
 
     return res
+
 
 def search_file(file_name: str, path: str) -> List[T]:
     """Search a root directory for a particular file
@@ -385,20 +385,32 @@ def search_file(file_name: str, path: str) -> List[T]:
     return res
 
 
-def check_file_is_same_format(fileOne: str, fileTwo:str) -> bool:
+def check_file_is_same_format(file_one: str, file_two:str) -> bool:
     """Checks if file1 and file2 are of the same format
 
     Keyword Arguments:
-    fileOne -- the first file in the comparison
-    fileTwo -- the second file in the comparison
+    file_one -- the first file in the comparison
+    file_two -- the second file in the comparison
     """
+
+    # Get the file format of first file ###########################################
     counter = 1
-    while fileOne[-counter] != "." and counter < min(len(fileOne), len(fileTwo)):
-        if fileOne[-counter] != fileTwo[-counter]:
-            return False
+    first_fileformat = ""
+    while file_one[-counter] != "." and counter < len(file_one):
+        first_fileformat = first_fileformat + file_one[-counter]
         counter += 1
 
-    return True
+    # Get the file format of second file ###########################################
+    counter = 1
+    second_fileformat = ""
+    while file_two[-counter] != "." and counter < len(file_two):
+        second_fileformat = second_fileformat + file_two[-counter]
+        counter += 1
+
+    if second_fileformat == first_fileformat:
+        return True
+
+    return False
 
 
 def check_triggers_multiline_comment(line: str, multiline_sexp: str, multiline_closing_sexp: str) -> bool:
@@ -515,9 +527,6 @@ def strip_comment_of_symbols(comment: str, language: dict) -> str:
             res = res + char
 
     return res
-
-
-
 
 
 def remove_starting_whitespace(comment: str) -> str:
