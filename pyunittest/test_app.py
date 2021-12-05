@@ -12,6 +12,11 @@ import app
 
 class test_app(unittest.TestCase):
 
+    # @unittest.skip("Git test repo does not then use mock instead")
+    def test_pulling_repo_from_git(self):
+        test_case = app.get_snapshot_from_git("https://github.com/luyangliuable/testing-repo.git", 'master', 1)
+        self.assertEqual(test_case, "/tmp")
+
     def test_find_multiple_single_line_comment(self):
         test_case = [
             {'line': '// test', 'location': 'rand', 'language': app.c_comment},
