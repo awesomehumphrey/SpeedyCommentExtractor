@@ -168,70 +168,15 @@ def iterate_dictionary_for_header(dictionary: dict) -> List[T]:
 
     return res
 
+
 def get_snapshot_from_git(git_repo_link: str, branch: str, depth: int) -> str:
-  t = tempfile.mkdtemp() # Create temporary dir
-  git.Repo.clone_from(git_repo_link, t, branch=branch, depth=depth)
-  return tempfile.gettempdir()
+  location = tempfile.mkdtemp() # Create temporary dir
+  git.Repo.clone_from(git_repo_link, location, branch=branch, depth=depth)
+  return location
   # Copy desired file from temporary dir
   # shutil.move(os.path.join(t, 'setup.py'), '.')
   # # Remove temporary dir
   # shutil.rmtree(t)
-
-def auto_extract_comment_from_path(directory: str, language: dict, output_dir: str) -> None:
-    line_counter = 0
-
-    # The maximum line of code for each csv file ###############################
-    # languages = iterate_dictionary_for_header(languages)
-    files = []
-    files = files + search_file('*' + language["format"], directory)
-    max_line_per_file = 50000
-    for file in files:
-        if line_counter > max_line_per_file:
-            comment_dir = create_comment_file(output_dir, language)
-            line_counter = 0
-
-        lines_in_file = get_every_line_from_file(file)
-        comments_in_file = extract_comment_from_line_list(lines_in_file, language)
-
-        # Strip comment of symbols ####################################################
-        comments = [save_in_dict(strip_comment_of_symbols(comment['line'], language), comment['location'], language['language']) for comment in comments_in_file]
-        # comments = [{'line': strip_comment_of_symbols(comment['line'], language), 'location': comment['location']} for comment in comments_in_file]
-
-        # Strip comment of starting whitespace ########################################
-        comments = [remove_starting_whitespace(comments[i]['line']) for i in range(len( comments ))]
-        # comments = [{'line': remove_starting_whitespace(comment['line']), 'location': comment['location']} for comment in comments]
-        # comments = [{'line': remove_starting_whitespace(comment['line']), 'location': comment['location']} for comment in comments]
-        write_comment_file(comments, comment_dir)
-        line_counter += len(comments)
-
-
-def get_every_line_from_file(filename: str) -> List[T]:
-    ###############################################################################
-    #                         getting encoding of the file                        #
-    ###############################################################################
-
-    lines = []
-    with open(filename, 'rb') as thefile:
-        encoding = chardet.detect(bytes(thefile.read()))['encoding']
-
-    try:
-        thefile = open(filename, 'r', encoding=encoding)
-        lines = thefile.readlines()
-    except:
-        try:
-            print("Trouble decoding file " + filename + " now attempting to use utf-8")
-            with open(filename, 'r', encoding="utf-8" ) as thefile:
-                lines = thefile.readlines()
-        except:  # UnsupportEncodingException:
-            print("failed to decode file" + filename)
-
-    if len(lines) != 0:
-        for line_number in range(len(lines)):  # enumerate(line)
-            lines[line_number] = {
-                'line': lines[line_number].strip('\n'),
-                'location': filename + ": " + str(line_number+1)
-            }
-    return lines
 
 
 def extract_comment_from_path(directory: str, language: dict, output_dir: str):
@@ -272,6 +217,78 @@ def extract_comment_from_path(directory: str, language: dict, output_dir: str):
 
         write_comment_file(comments_in_file, comment_dir)
         line_counter += len(comments_in_file)
+
+
+def extract_comment_from_repo(repo: str, branch: str, language: dict, output_dir: str):
+    """Extracts all comments from file contained inside a path
+
+    Keyword Arguments:
+
+    directory -- the root directory to search from
+    language
+
+    language -- the programming language to search in
+    """
+    depth = 1
+    tmp_directory = get_snapshot_from_git(repo, branch, depth)
+
+    files = []
+    comment_dir = create_comment_file(output_dir, language)
+
+    files = files + search_file('*' + language["format"], tmp_directory)
+
+    # if language is python_comment:
+    #     files = files + search_file('*.py', tmp_directory)
+    # elif language is c_comment:
+    #     files = files + search_file('*.c', tmp_directory)
+    # elif language is asm_comment:
+    #     files = files + search_file('*.asm', tmp_directory)
+    # elif language is makefile_comment:
+    #     files = files + search_file('*.makefile', tmp_directory)
+
+    line_counter = 0
+
+    # The maximum line of code for each csv file ###############################
+    max_line_per_file = 50000
+    for file in files:
+        if line_counter > max_line_per_file:
+            comment_dir = create_comment_file(output_dir, language)
+            line_counter = 0
+
+        lines_in_file = get_every_line_from_file(file)
+        comments_in_file = extract_comment_from_line_list(lines_in_file, language)
+
+        write_comment_file(comments_in_file, comment_dir)
+        line_counter += len(comments_in_file)
+
+
+def get_every_line_from_file(filename: str) -> List[T]:
+    ###############################################################################
+    #                         getting encoding of the file                        #
+    ###############################################################################
+
+    lines = []
+    with open(filename, 'rb') as thefile:
+        encoding = chardet.detect(bytes(thefile.read()))['encoding']
+
+    try:
+        thefile = open(filename, 'r', encoding=encoding)
+        lines = thefile.readlines()
+    except:
+        try:
+            print("Trouble decoding file " + filename + " now attempting to use utf-8")
+            with open(filename, 'r', encoding="utf-8" ) as thefile:
+                lines = thefile.readlines()
+        except:  # UnsupportEncodingException:
+            print("failed to decode file" + filename)
+
+    if len(lines) != 0:
+        for line_number in range(len(lines)):  # enumerate(line)
+            lines[line_number] = {
+                'line': lines[line_number].strip('\n'),
+                'location': filename + ": " + str(line_number+1)
+            }
+    return lines
 
 
 def extract_comment_from_line_list(lines: List[T], language: dict) -> List[T]:
