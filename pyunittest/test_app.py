@@ -1,6 +1,7 @@
 import os
 import sys
 import inspect
+import shutil
 import unittest
 from unittest.mock import Mock, MagicMock, call, patch, PropertyMock
 # relative imports from parent directory ######################################
@@ -15,7 +16,14 @@ class test_app(unittest.TestCase):
     # @unittest.skip("Git test repo does not then use mock instead")
     def test_pulling_repo_from_git(self):
         test_case = app.get_snapshot_from_git("https://github.com/luyangliuable/testing-repo.git", 'master', 1)
-        self.assertEqual(test_case, "/tmp")
+        self.assertEqual(test_case[0:4], "/tmp")
+        shutil.rmtree(test_case)
+
+    def test_extract_repo_from_git(self):
+        test_case = app.extract_comment_from_repo("https://github.com/luyangliuable/testing-repo.git", "master", app.c_comment, './test-folder')
+        self.assertEqual(test_case[0:4], "/tmp")
+        shutil.rmtree(test_case)
+
 
     def test_find_multiple_single_line_comment(self):
         test_case = [

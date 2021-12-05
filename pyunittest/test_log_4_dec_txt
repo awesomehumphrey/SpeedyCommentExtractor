@@ -1,0 +1,30 @@
+test_check_file_is_same_format (__main__.test_app) ... ok
+test_check_if_comment_is_empty_multi_line (__main__.test_app) ... ok
+test_check_if_comment_is_empty_single_line (__main__.test_app) ... ok
+test_check_trigger_multiline_comment_c (__main__.test_app) ... ok
+test_check_trigger_none_multiline_comment_from_html (__main__.test_app) ... ok
+test_extract_comment_from_c_comment (__main__.test_app) ... ok
+test_extract_comment_from_css (__main__.test_app) ... ok
+test_extract_comment_from_html (__main__.test_app) ... ok
+test_extract_comment_from_line_list (__main__.test_app) ... ok
+test_extract_multiline_comment_from_c (__main__.test_app) ... ok
+test_extract_multiline_comment_from_css (__main__.test_app) ... ok
+test_extract_multiline_comment_from_html (__main__.test_app) ... ok
+test_extract_none_multiline_comment_from_html (__main__.test_app) ... ok
+test_extract_wrong_comments_c (__main__.test_app) ... ok
+test_find_multiple_single_line_comment (__main__.test_app) ... ok
+test_find_text_enclosed_inside (__main__.test_app) ... ok
+test_full_write_file (__main__.test_app) ... ok
+test_get_every_line_from_file (__main__.test_app) ... ok
+test_iterate_dictionary_for_header (__main__.test_app) ... ok
+test_pulling_repo_from_git (__main__.test_app) ... ok
+test_remove_starting_whitespace (__main__.test_app) ... ok
+test_save_to_dictionary (__main__.test_app) ... ok
+test_strip_comment_of_symbols (__main__.test_app) ... ok
+test_write_wrong_comments_c (__main__.test_app) ... creating new comment file commentfile14.csv
+ok
+
+----------------------------------------------------------------------
+Ran 24 tests in 1.180s
+
+OK
