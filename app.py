@@ -1,5 +1,7 @@
 import os
+import git
 import csv
+import tempfile
 import chardet
 from typing import TypeVar, Generic, List, NewType
 
@@ -166,6 +168,14 @@ def iterate_dictionary_for_header(dictionary: dict) -> List[T]:
 
     return res
 
+def get_snapshot_from_git(git_repo_link: str, branch: str, depth: int) -> str:
+  t = tempfile.mkdtemp() # Create temporary dir
+  git.Repo.clone_from(git_repo_link, t, branch=branch, depth=depth)
+  return tempfile.gettempdir()
+  # Copy desired file from temporary dir
+  # shutil.move(os.path.join(t, 'setup.py'), '.')
+  # # Remove temporary dir
+  # shutil.rmtree(t)
 
 def auto_extract_comment_from_path(directory: str, language: dict, output_dir: str) -> None:
     line_counter = 0
