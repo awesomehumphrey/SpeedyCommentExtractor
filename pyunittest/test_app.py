@@ -16,12 +16,12 @@ class test_app(unittest.TestCase):
     # @unittest.skip("Git test repo does not then use mock instead")
     def test_pulling_repo_from_git(self):
         test_case = app.get_snapshot_from_git("https://github.com/luyangliuable/testing-repo.git", 'master', 1)
-        self.assertEqual(test_case[0:4], "/tmp")
+        self.assertTrue(test_case[0:4] in ("/tmp", "/var"))
         shutil.rmtree(test_case)
 
     def test_extract_repo_from_git(self):
         test_case = app.extract_comment_from_repo("https://github.com/luyangliuable/testing-repo.git", "master", app.c_comment, './test-folder')
-        self.assertEqual(test_case[0:4], "/tmp")
+        self.assertEqual(test_case, "/tmp")
         shutil.rmtree(test_case)
 
 
@@ -134,7 +134,7 @@ class test_app(unittest.TestCase):
 
     def test_iterate_dictionary_for_header(self):
         test_case = app.iterate_dictionary_for_header(app.languages)
-        self.assertEqual(['c', 'kotlin', 'c++', 'javascript', 'gradle', 'build', 'python', 'assembly', 'makefile', 'shell', 'perl', 'java', 'html', 'css', 'xml'], test_case)
+        self.assertEqual(['c', 'kotlin', 'c++', 'javascript', 'gradle', 'build', 'python', 'assembly', 'makefile', 'shell', 'perl', 'java', 'html', 'css', 'xml', 'batchscript'], test_case)
 
     def test_save_to_dictionary(self):
         test_case = app.save_in_dict('line', 'location', 'language')

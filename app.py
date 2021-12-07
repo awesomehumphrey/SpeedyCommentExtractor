@@ -85,7 +85,7 @@ languages = {
         "multiline_start": '▓',
         "multiline_end": '▓',
         "single_line": ['#'],
-        "format": 'shell',
+        "format": 'sh',
         "language": "shell"
     },
     "perl": {
@@ -127,9 +127,18 @@ languages = {
         "language": "xml"
     },
 
+    "batchscript": {
+        "multiline_start": '▓',
+        "multiline_end": '▓',
+        "single_line": ['::'],
+        "format": 'bat',
+        "language": "batchscript"
+    },
+
 }
 
 html_comment = languages['html']
+batch_comment = languages['batchscript']
 css_comment = languages['css']
 xml_comment = languages['xml']
 c_comment = languages['c']
@@ -219,7 +228,7 @@ def extract_comment_from_path(directory: str, language: dict, output_dir: str):
         line_counter += len(comments_in_file)
 
 
-def extract_comment_from_repo(repo: str, branch: str, language: dict, output_dir: str):
+def extract_comment_from_repo(repo: str, branch: str, language: dict, output_dir: str) -> None:
     """Extracts all comments from file contained inside a path
 
     Keyword Arguments:
@@ -236,15 +245,6 @@ def extract_comment_from_repo(repo: str, branch: str, language: dict, output_dir
     comment_dir = create_comment_file(output_dir, language)
 
     files = files + search_file('*' + language["format"], tmp_directory)
-
-    # if language is python_comment:
-    #     files = files + search_file('*.py', tmp_directory)
-    # elif language is c_comment:
-    #     files = files + search_file('*.c', tmp_directory)
-    # elif language is asm_comment:
-    #     files = files + search_file('*.asm', tmp_directory)
-    # elif language is makefile_comment:
-    #     files = files + search_file('*.makefile', tmp_directory)
 
     line_counter = 0
 
