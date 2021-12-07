@@ -16,7 +16,7 @@
 <!-- markdown-toc end -->
 
 ## About
-Can extract all comments from linux kernal repo in less than 30 minutes on most modern laptops. That's all you need to know.
+Can extract all comments (80,000+ rows) from linux kernal repo in less than 30 minutes on most modern laptops. That's all you need to know.
 
 It stores the comments inside an .csv file like so:
 
