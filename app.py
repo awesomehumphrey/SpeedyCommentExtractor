@@ -1,6 +1,7 @@
 import os
 import git
 import csv
+import shutil
 import tempfile
 import chardet
 from typing import TypeVar, Generic, List, NewType
@@ -161,6 +162,18 @@ makefile_comment = languages['makefile']
 shell_comment = languages['shell']
 perl_comment = languages['perl']
 
+
+def get_comment_from_repo_using_all_languages(repo: str, branch: str, output_dir: str) -> None:
+    """
+
+    Keyword arguments:
+    repo --
+    branch --
+    output_dir --
+    """
+    for key in languages:
+        extract_comment_from_repo(repo, branch, languages[key], output_dir)
+
 def get_comment_from_path_using_all_languages(directory: str, output_dir: str):
     for key in languages:
         extract_comment_from_path(directory, languages[key], output_dir)
@@ -260,6 +273,8 @@ def extract_comment_from_repo(repo: str, branch: str, language: dict, output_dir
 
         write_comment_file(comments_in_file, comment_dir)
         line_counter += len(comments_in_file)
+
+    shutil.rmtree(tmp_directory)
 
 
 def get_every_line_from_file(filename: str) -> List[T]:
