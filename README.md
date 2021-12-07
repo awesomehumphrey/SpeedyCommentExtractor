@@ -1,48 +1,71 @@
-# value centred programming and summer research
+# Speedy Comment Extractor
+
+![Alt Text](logo.png) 
 
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
 **Table of Contents**
 
-- [value centred programming and summer research](#value-centred-programming-and-summer-research)
-    - [Members](#members)
-    - [About](#about)
-    - [Architectural proposal](#architectural-proposal)
-    - [Frontend](#frontend)
-    - [Backend](#backend)
-    - [Roadmap](#roadmap)
+- [value centred programming](#value-centred-programming)
+    - [Usage](#usage)
+        - [Setting up dependencies](#setting-up-dependencies)
+        - [To get comments from directory:](#to-get-comments-from-directory)
+        - [To get comments from repostort:](#to-get-comments-from-repostort)
+    - [Limitations](#limitations)
+        - [Does not support all encoding](#does-not-support-all-encoding)
+        - [Supported languages](#supported-languages)
+    - [Known bugs](#known-bugs)
 
 <!-- markdown-toc end -->
 
-## Members
-Luyang - Faculty of IT, Monash university
-
 ## About
-AI research project from uni
+Can extract all comments from linux kernal repo in less than 30 minutes on most modern laptops. That's all you need to know.
 
-[google document](https://docs.google.com/document/d/1cz_LxWyqS6k3hjjeRV17ys2JllzPxAeqDv5bEUmCilU/edit#)
+It stores the comments inside an .csv file like so:
+
+![Alt Text](./screenshots/csv_example.png)
+
+## Usage
+
+### Setting up dependencies
+```shell
+./requirements.sh
+```
+
+### To get comments from directory: 
+
+```shell
+python3 driver.py -d <root directory>
+```
+### To get comments from repostories: 
+
+```bash
+python3 driver.py -repo <repository link> <branch name> <depth>
+```
 
 
-## Architectural proposal
+## Limitations
 
-## Frontend
-* HTML, CSS
-* React.JS
+### Does not support all encoding
 
-## Backend
-* Django
-* PostgreSQL database
-* host on Heroku
-* use docker?
+### Supported languages
+* html_comment 
+* batch_comment 
+* css_comment 
+* xml_comment 
+* c_comment 
+* kotlin_comment 
+* cpp_comment 
+* javascript_comment 
+* gradle_comment 
+* java_comment 
+* build_comment 
+* python_comment
+* asm_comment
+* makefile_comment 
+* shell_comment 
+* perl_comment
 
-## Roadmap
-  * [x] **Week 1:** Extract comments from linux kernal, mozilla and android repo, create architectural recommendations and roadmap plan <br />
-  * [ ] **Week 2:** Label comments based on their human value using schwartz human values model<br />
-  * [ ] **Week 3:** Create rule generator framework
-  * [ ] **Week 4:** train ai model and rule generator similar to c-comment<br />
-  * [ ] **Week 5:** train ai model and rule generator similar to c-comment<br />
-  * [ ] **Week 6:** Testing ai model
-  * [ ] **Week 8:** Improving ai model accuracy
-  * [ ] **Week 9:** front-end and app development<br />
+## Known bugs
+* Perl support is still unstable
+* Multi line comments have too many whitespace for spacing between words
 
-## Sources
-[Kotlin coding standards](https://kotlinlang.org/docs/coding-conventions.html#trailing-commas)
