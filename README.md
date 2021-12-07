@@ -1,24 +1,22 @@
-# Speedy Comment Extractor
-
 ![Alt Text](logo.png) 
 
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
 **Table of Contents**
 
-- [value centred programming](#value-centred-programming)
-    - [Usage](#usage)
-        - [Setting up dependencies](#setting-up-dependencies)
-        - [To get comments from directory:](#to-get-comments-from-directory)
-        - [To get comments from repostort:](#to-get-comments-from-repostort)
-    - [Limitations](#limitations)
-        - [Does not support all encoding](#does-not-support-all-encoding)
-        - [Supported languages](#supported-languages)
-    - [Known bugs](#known-bugs)
+- [About](#about)
+- [Usage](#usage)
+    - [Setting up dependencies](#setting-up-dependencies)
+    - [To get comments from directory:](#to-get-comments-from-directory)
+    - [To get comments from repostories:](#to-get-comments-from-repostories)
+- [Limitations](#limitations)
+    - [Does not support all encoding](#does-not-support-all-encoding)
+    - [Supported languages](#supported-languages)
+- [Known bugs](#known-bugs)
 
 <!-- markdown-toc end -->
 
 ## About
-Can extract all comments from linux kernal repo in less than 30 minutes on most modern laptops. That's all you need to know.
+Can extract all comments (80,000+ rows) from linux kernal repo in less than 30 minutes on most modern laptops. That's all you need to know.
 
 It stores the comments inside an .csv file like so:
 
