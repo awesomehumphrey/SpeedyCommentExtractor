@@ -274,7 +274,8 @@ def extract_comment_from_repo(repo: str, branch: str, language: dict, output_dir
         write_comment_file(comments_in_file, comment_dir)
         line_counter += len(comments_in_file)
 
-    shutil.rmtree(tmp_directory)
+    # disabled remove tmp directory after completing #########################
+    # shutil.rmtree(tmp_directory)
 
 
 def get_every_line_from_file(filename: str) -> List[T]:
