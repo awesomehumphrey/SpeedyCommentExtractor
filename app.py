@@ -385,12 +385,6 @@ def extract_comment_from_line_list(lines: List[T], language: dict) -> List[T]:
         next_line_is_comment = False
         multiple_singleline_comment = ""
 
-    # Strip comment of symbols ####################################################
-    # result = [save_in_dict(strip_comment_of_symbols(result['line'], language), result['location'], language['language']) for result in res]
-
-    # Strip result of starting whitespace ########################################
-    # comments = [save_in_dict(remove_starting_whitespace(comment['line']), comment['location'], language['language']) for comment in result]
-
     return res
 
 
