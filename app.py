@@ -274,7 +274,8 @@ def extract_comment_from_repo(repo: str, branch: str, language: dict, output_dir
         write_comment_file(comments_in_file, comment_dir)
         line_counter += len(comments_in_file)
 
-    shutil.rmtree(tmp_directory)
+    # disabled remove tmp directory after completing #########################
+    # shutil.rmtree(tmp_directory)
 
 
 def get_every_line_from_file(filename: str) -> List[T]:
@@ -356,13 +357,13 @@ def extract_comment_from_line_list(lines: List[T], language: dict) -> List[T]:
             if not multiline_comment:
                 multiline_comment = True
             else:
-                single_multiline_comment += line['line']
+                single_multiline_comment += remove_starting_whitespace( strip_comment_of_symbols( line['line'].strip("\n"), language ) )
                 comment = save_in_dict(single_multiline_comment, line['location'], language['language'])
                 single_multiline_comment = ""
                 multiline_comment = False
 
         if multiline_comment:
-            single_multiline_comment += line['line'].strip("\n") + " "
+                single_multiline_comment += remove_starting_whitespace( strip_comment_of_symbols( line['line'] .strip("\n"), language)) + " "
         elif comment == "" and not next_line_is_comment: # adjusted
             comment = save_in_dict(find_text_enclosed_inside(line['line'], language["single_line"]), line['location'], language['language'])
 
