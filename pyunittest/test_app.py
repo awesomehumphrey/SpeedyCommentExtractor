@@ -19,6 +19,7 @@ class test_app(unittest.TestCase):
         self.assertTrue(test_case[0:4] in ("/tmp", "/var"))
         shutil.rmtree(test_case)
 
+
     def test_extract_repo_from_git(self):
         test_case = app.extract_comment_from_repo("https://github.com/luyangliuable/testing-repo.git", "master", app.c_comment, './test-folder')
         self.assertTrue(True)
@@ -26,13 +27,13 @@ class test_app(unittest.TestCase):
 
     def test_find_multiple_single_line_comment(self):
         test_case = [
-            {'line': '// test', 'location': 'rand', 'language': app.c_comment},
-            {'line': '// test', 'location': 'rand', 'language': app.c_comment},
-            {'line': '// test', 'location': 'rand', 'language': app.c_comment},
+            {'line': '// test1', 'location': 'rand', 'language': app.c_comment},
+            {'line': '// test2', 'location': 'rand', 'language': app.c_comment},
+            {'line': '// test3', 'location': 'rand', 'language': app.c_comment},
         ]
 
         result = app.extract_comment_from_line_list(test_case, app.c_comment)
-        self.assertEqual(result[0]['line'], 'test test test ')
+        self.assertEqual(result[0]['line'], 'test1 test2 test3 ')
 
     def test_find_text_enclosed_inside(self):
         test_find = app.find_text_enclosed_inside('#test', '#')
@@ -108,6 +109,18 @@ class test_app(unittest.TestCase):
         test2 = app.remove_starting_whitespace(test2)
         self.assertEqual(test2, 'Main encode function ')
 
+
+    def test_extract_multiline_comment_from_xml(self):
+        line_list= [
+            {"line":"<!-- Main encode function", "location": "random"},
+            {"line": "beep boop", "location": "random"},
+            {"line": "Initialize the state: -->", "location": "random"},
+        ]
+
+        test_case = app.extract_comment_from_line_list(line_list, app.xml_comment)
+        test2 = app.strip_comment_of_symbols(test_case[0]['line'], app.xml_comment)
+        test2 = app.remove_starting_whitespace(test2)
+        self.assertEqual(test2, 'Main encode function beep boop Initialize the state: ')
 
     def test_extract_multiline_comment_from_c(self):
         line_list= [
