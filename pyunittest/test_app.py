@@ -246,6 +246,19 @@ class test_app(unittest.TestCase):
         # result = app.strip_comment_of_symbols(test_case[0]['line'], app.html_comment)
         self.assertEqual(test_case, [])
 
+    def test_comment_not_duplicated(self):
+
+        comments = [
+            {'line': '<!-- if sdk.dir was not set from one of the property file, then', 'location': 'random', 'language': app.xml_comment['language']},
+            {'line': 'get it from the ANDROID_HOME env var.', 'location': 'random', 'language': app.xml_comment['language']},
+            {'line': 'This must be done before we load project.properties since', 'location': 'random', 'language': app.xml_comment['language']},
+            {'line': 'the proguard config can use sdk.dir -->', 'location': 'random', 'language': app.xml_comment['language']},
+        ]
+
+        test_case = app.extract_comment_from_line_list(comments, app.html_comment)
+
+        self.assertEqual(test_case[0]['line'], "if sdk.dir was not set from one of the property file, then get it from the ANDROID_HOME env var. This must be done before we load project.properties since the proguard config can use sdk.dir ")
+
 def main():
     # Create a test suit
     suit = unittest.TestLoader().loadTestsFromTestCase(test_app)

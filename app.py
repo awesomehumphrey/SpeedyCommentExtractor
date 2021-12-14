@@ -357,13 +357,13 @@ def extract_comment_from_line_list(lines: List[T], language: dict) -> List[T]:
             if not multiline_comment:
                 multiline_comment = True
             else:
-                single_multiline_comment += remove_starting_whitespace( strip_comment_of_symbols( line['line'].strip("\n"), language ) )
+                single_multiline_comment += remove_starting_whitespace(strip_comment_of_symbols(line['line'].strip("\n"), language ))
                 comment = save_in_dict(single_multiline_comment, line['location'], language['language'])
                 single_multiline_comment = ""
                 multiline_comment = False
 
         if multiline_comment:
-                single_multiline_comment += remove_starting_whitespace( strip_comment_of_symbols( line['line'] .strip("\n"), language)) + " "
+                single_multiline_comment += remove_starting_whitespace( strip_comment_of_symbols( line['line'].strip("\n"), language)) + " "
         elif comment == "" and not next_line_is_comment: # adjusted
             comment = save_in_dict(find_text_enclosed_inside(line['line'], language["single_line"]), line['location'], language['language'])
 
@@ -517,6 +517,7 @@ def find_text_enclosed_inside(line: str, sexpressions: List[str]) -> str:
                 if sliding_window not in sexp:
                     res += line[which_line_column]
 
+    res = remove_starting_whitespace(res)
     return res
 
 
@@ -573,14 +574,14 @@ def remove_starting_whitespace(comment: str) -> str:
 
     comment -- A string of comment
     """
-    trailing_whitespace = True
+    whitespace = True
     res = ""
 
     for char in comment:
         if char != " ":
-            trailing_whitespace = False
+            whitespace = False
 
-        if not trailing_whitespace:
+        if not whitespace:
             res += char
 
     return res
