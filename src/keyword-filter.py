@@ -1,5 +1,6 @@
 import os
 import csv
+import re
 import json
 import tempfile
 import chardet
@@ -16,8 +17,28 @@ class keywordFilter():
         self.file = csvfile
         self.openFile()
         self.getKeywords()
-        print(self.getSynonyms("choosing own goals"))
-        print(self.getAntonyms("choosing own goals"))
+        words = (self.getAntonyms("choosing own goals"))
+        print(self.checkWordsInLine(words, "You are cool"))
+        print(self.checkWordsInLine(words, "You should not eat"))
+
+    def checkWordsInLine(self, words: str, line: str) -> bool:
+        filter = ""
+        for word in words:
+            filter += word + "|"
+
+        filteredWords = re.findall(filter, line, flags=re.IGNORECASE)
+
+        res = []
+        for string in filteredWords:
+            if string != "":
+                res.append(string)
+
+        return len(res) > 0
+
+
+    def lineToWords(self, sentence: str) -> List[T]:
+        words = re.findall('([a-z]+)', sentence, flags=re.IGNORECASE)
+        return words
 
     def getSynonyms(self, value: str) -> str:
         return self.dictionary[value]["synonyms"]
