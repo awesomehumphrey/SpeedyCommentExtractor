@@ -15,11 +15,21 @@ class test_keyword_filter(unittest.TestCase):
     def setUp(self):
         self.keyword_filter = filter("./file.csv")
 
-    def test_get_file(self):
+    def test_open_csv_file(self):
+        testcase = self.keyword_filter.get_all_lines()
+        expected = [
+            "test1",
+            "test2",
+            "test3"
+        ]
+        self.assertEqual(expected, testcase)
+
+    def test_write_csv_file(self):
+        self.keyword_filter.append_to_csv_file([{'line': 'poo poo', 'location': 'poo', 'language': 'poolang'}], "poo.csv")
+
+    def test_get_synonym(self):
         testcase = self.keyword_filter.get_synonyms("choosing own goals")
-        self.assertEqual(testcase, ["keep", "for how", "skip", "uncomment", "comment", "you may", "instead", "could be replaced", "avoid problems", "make sure", "run this", "see", "todo", "value", "wait until", "if so", "backup", "asap", "as soon as possible"])
-
-
+        self.assertAlmostEqual(testcase, ["keep", "for how", "skip", "uncomment", "comment", "you may", "instead", "could be replaced", "avoid problems", "make sure", "run this", "see", "todo", "value", "wait until", "if so", "backup", "asap", "as soon as possible"])
 
 def main():
     # Create a test suit
