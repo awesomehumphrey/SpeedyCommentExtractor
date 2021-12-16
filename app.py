@@ -388,7 +388,6 @@ def extract_comment_from_line_list(lines: List[T], language: dict) -> List[T]:
 
     return res
 
-
 def search_file(file_name: str, path: str) -> List[T]:
     """Search a root directory for a particular file
 
