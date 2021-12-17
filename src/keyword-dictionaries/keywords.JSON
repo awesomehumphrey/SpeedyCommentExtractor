@@ -1,7 +1,7 @@
 {
     "choosing own goals": {
         "synonyms": [
-            "keep", "for how", "skip", "uncomment", "comment", "you may", "instead", "could be replaced", "avoid problems", "make sure", "run this", "see", "todo", "value", "wait until", "if so", "backup", "asap", "as soon as possible"
+            "check", "keep", "for how", "skip", "uncomment", "comment", "you may", "instead", "could be replaced", "avoid problems", "make sure", "run this", "see", "todo", "value", "wait until", "if so", "backup", "asap", "as soon as possible"
         ],
         "antonyms": ["no point", "must", "should not", "do not", "don't"],
         "category": "self-direction"
