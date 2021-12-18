@@ -110,7 +110,7 @@ class comment_database:
             f = StringIO(first_line + other_line)
             line = csv.DictReader(f)
             line = [single_line for single_line in line][0]
-
+            line['line'] = line['line'].replace("'","''")
             list_of_values = []
 
             for key in line:
@@ -139,9 +139,9 @@ class comment_database:
             for i in range(len( the_list )):
                 field = the_list[i]
                 if i != len(the_list) - 1:
-                    res+= str(field) +", "
+                    res+= "\"\"\"" + str(field) +"\"\"\", "
                 else:
-                    res += str(field) + ")"
+                    res += "\"\"\"" + str(field) + "\"\"\")"
         else:
             res = "("
             for i in range(len( the_list )):
@@ -156,11 +156,10 @@ class comment_database:
 
     def insert_line(self, values: List[T]) -> None:
         values_to_be_inserted = self.turn_list_into_fields(values, False)
-        query = """insert into """ + self.tablename + " " + self.fieldname + """ VALUES """ + values_to_be_inserted
+        query = """insert into """ + self.tablename + """ """ + self.fieldname + """ VALUES """ + values_to_be_inserted
         self.execute(query)
 
     def execute(self, query: str) -> None:
-        print("Executing query: " + query + "...")
         self.cur.execute(query)
         self.commit()
 
