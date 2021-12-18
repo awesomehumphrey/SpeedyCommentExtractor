@@ -67,7 +67,7 @@ class keyword_filter():
                     if appendages == "ing":
                         filteredWords += re.findall("\\b" + filter[0:-1] + appendages + "\\b", line, flags=re.IGNORECASE)
                     else:
-                        filteredWords += re.findall("\\b" + filter[0:-1] + appendages + "\\b", line, flags=re.IGNORECASE)
+                        filteredWords += re.findall("\\b" + filter + appendages + "\\b", line, flags=re.IGNORECASE)
 
                 for string in filteredWords:
                     if string != "":
@@ -100,8 +100,8 @@ class keyword_filter():
         for i in range(1, file_size):
             first_line = linecache.getline(filename, 1)
             other_line = linecache.getline(filename, i)
-            f = StringIO(first_line + other_line)
-            line = csv.DictReader(f)
+            f = stringio(first_line + other_line)
+            line = csv.dictreader(f)
             line = [single_line for single_line in line][0]
 
 
