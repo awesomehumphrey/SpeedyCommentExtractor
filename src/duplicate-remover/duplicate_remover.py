@@ -36,6 +36,12 @@ class comment_database:
             from """ + self.tablename + """
             group by """ + self.og_fieldnames[0] + """)
             """)
+        self.execute("""
+            delete from """ + self.tablename + """
+            where rowid not in (select min(rowid)
+            from """ + self.tablename + """
+            group by """ + self.og_fieldnames[1] + """)
+            """)
         self.commit()
 
     def export_table_to_csv(self) -> None:
@@ -110,7 +116,8 @@ class comment_database:
             f = StringIO(first_line + other_line)
             line = csv.DictReader(f)
             line = [single_line for single_line in line][0]
-            line['line'] = line['line'].replace("'","''")
+            for key in line:
+                line[key] = line[key].replace("'","''")
             list_of_values = []
 
             for key in line:
@@ -171,8 +178,8 @@ class comment_database:
     def close_connection(self):
         self.connection.close()
 
-db = comment_database('./test.csv')
-print(db.import_comments_from_csv_file("./test.csv"))
+db = comment_database('./filtered_commentfile11.csv')
+print(db.import_comments_from_csv_file("./filtered_commentfile11.csv"))
 db.remove_duplicates_in_database()
 db.export_table_to_csv()
 db.close_connection()
