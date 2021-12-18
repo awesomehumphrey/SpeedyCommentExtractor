@@ -13,7 +13,7 @@ from keyword_filter import keyword_filter as filter
 class test_keyword_filter(unittest.TestCase):
 
     def setUp(self):
-        self.keyword_filter = filter('./pyunittest/file.csv')
+        self.keyword_filter = filter('./file.csv')
 
 
     @unittest.skip("too slow")
@@ -42,6 +42,15 @@ class test_keyword_filter(unittest.TestCase):
         self.assertTrue(['./poo.csv'])
 
 
+    def test_get_line_word_size(self):
+        testcase = self.keyword_filter.get_line_word_size("apple banana carrot")
+        self.assertEqual(testcase, 3)
+
+    def test_get_number_of_lines_in_file(self):
+        testcase = self.keyword_filter.get_number_of_lines_in_file("./file.csv")
+        self.assertEqual(testcase, 4)
+
+
     def test_compound_keywords_in_line(self):
         testcase = self.keyword_filter.check_words_in_line(self.keyword_filter.get_antonyms('healthy'), "Ill Will be called right after we have refreshed the ATB retention on search")
         self.assertTrue(len( testcase ) > 0)
@@ -56,6 +65,7 @@ class test_keyword_filter(unittest.TestCase):
     def test_get_synonym(self):
         testcase = self.keyword_filter.get_synonyms("choosing own goals")
         self.assertAlmostEqual(testcase, ["keep", "for how", "skip", "uncomment", "comment", "you may", "instead", "could be replaced", "avoid problems", "make sure", "run this", "see", "todo", "value", "wait until", "if so", "backup", "asap", "as soon as possible"])
+
 
 def main():
     # Create a test suit

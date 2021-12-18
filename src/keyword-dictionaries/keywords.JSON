@@ -1,9 +1,9 @@
 {
     "choosing own goals": {
         "synonyms": [
-            "keep", "for how", "skip", "uncomment", "comment", "you may", "instead", "could be replaced", "avoid problems", "make sure", "run this", "see", "todo", "value", "wait until", "if so", "backup", "asap", "as soon as possible"
+            "be sure", "work around", "override", "keep", "for how", "skip", "uncomment", "you may", "instead", "could be replaced", "avoid problems", "make sure", "run this", "see", "todo", "value", "wait until", "if so", "backup", "asap", "as soon as possible"
         ],
-        "antonyms": ["no point", "must", "should not", "do not", "don't"],
+        "antonyms": ["anymore", "no point", "must", "should not", "do not", "don't"],
         "category": "self-direction"
     },
     "freedom": {
@@ -22,7 +22,7 @@
         "category": "Self_direction"
     },
     "privacy": {
-        "synonyms": ["history", "ask", "confirm", "token", "cryter", "password", "hidden", "privacy","concealment","sequestration","solitude","clandestineness", "confidential","exclusive","secret","privy","clandestine","hushed","nonpublic","secluded","secret","solitary","concealed","discreet","intrusive","permission"],
+        "synonyms": ["hide", "request", "history", "ask", "confirm", "token", "cryter", "password", "hidden", "privacy","concealment","sequestration","solitude","clandestineness", "confidential","exclusive","secret","privy","clandestine","hushed","nonpublic","secluded","secret","solitary","concealed","discreet","intrusive","permission"],
         "antonyms": ["visible", "revealed","unconcealed","overt","track","suspicious","spy"],
         "category": "Self_direction"
     },
@@ -57,7 +57,7 @@
         "category": "Stimulation"
     },
     "pleasure": {
-        "synonyms": ["simple", "visibility", "selectability", "manually", "fast", "exact", "frequently", "convenient", "easier", "smooth", "slick", "easy", "compact", "soft", "shortcut", "for better", "periodically", "automatically", "timely", "immediate", "pleasure","amusement","bliss","enjoyment","gratification","hobby","joy","buzz","entertainment","felicity","gladness","indulgence","joyride","recreation","relish","revelry","solace","gratification","happiness","satisfaction","delight"],
+        "synonyms": ["pleasure", "cover content", "animate", "smart", "simple", "visibility", "selectability", "manually", "fast", "exact", "frequently", "convenient", "easier", "smooth", "slick", "easy", "compact", "soft", "shortcut", "for better", "periodically", "automatically", "timely", "immediate", "pleasure","amusement","bliss","enjoyment","gratification","hobby","joy","buzz","entertainment","felicity","gladness","indulgence","joyride","recreation","relish","revelry","solace","gratification","happiness","satisfaction","delight"],
         "antonyms": ["cumbersome", "troublesome", "clunky", "out of luck", "flag", "problem", "crash", "delay", "mess", "slow", "lag", "glitchy", "discontent","displeasure","dissatisfaction","misery","sadness","sorrow","woe","apathy","blandness","chore","dislike","melancholy","pain","trouble","misery","wretchedness","anguish","desolation","joylessness","dejection","depression","despondency","dispiritedness","gloom","aggravation","annoyance","exasperation","irritation","vexation","anger","fury","rage","agitation","distress","uneasiness","frustration"],
         "category": "Hedonism"
     },
@@ -107,7 +107,7 @@
         "category": "Power"
     },
     "reputation": {
-        "synonyms": ["reputation","fame","honor","notoriety","prestige","stature","renown"],
+        "synonyms": ["popular", "reputation","fame","honor","notoriety","prestige","stature","renown"],
         "antonyms": ["disbelief","discredit","dishonor","disrepute","ignominy","infamy","obloquy","opprobrium","reproach","tarnish"],
         "category": "Power"
     },
@@ -138,17 +138,17 @@
     },
     "healthy": {
         "synonyms": ["supported", "good state", "guarantee", "athletic","hearty","robust","vigorous","virile","sturdy","potent","restored","bouncing","hale"],
-        "antonyms": ["dangerous", "disconnect", "crash", "hang the system", "attention", "corrupt", "try often", "failure", "fault", "defect", "bug", "abort", "fail", "error", "warning", "no guarantee", "delicate","feeble","infirm","lethargic","soft","unhealthy","weak","diseased","fragile","ill","indisposed","sick","ailing","unfit","unsound","unwell","injury"],
+        "antonyms": ["alert", "danger", "disconnect", "crash", "hang the system", "attention", "corrupt", "try often", "failure", "fault", "defect", "bug", "abort", "fail", "error", "warning", "no guarantee", "delicate","feeble","infirm","lethargic","soft","unhealthy","weak","diseased","fragile","ill","indisposed","sick","ailing","unfit","unsound","unwell","injury"],
         "category": "Security"
     },
     "clean": {
-        "synonyms": ["clean","graceful","hygienic","immaculate","neat","spotless","tidy","unblemished","washed","cleansed","laundered","sparkling","speckless","stainless","trim","delicate","dirtless","flawless","sanitary","taintless","unpolluted","unsmudged","unsoiled","unspotted","unstained","unsullied","untarnished","well-kept"],
-        "antonyms": ["missing", "conflict", "messy", "mess", "cloudy","contaminated","dirty","disorganized","sloppy","slovenly","soiled","tainted","unclean","unsterile","untidy","cluttered","defiled","muddled","polluted","stained"],
+        "synonyms": ["factorize", "factorise", "clean","graceful","hygienic","immaculate","neat","spotless","tidy","unblemished","washed","cleansed","laundered","sparkling","speckless","stainless","trim","delicate","dirtless","flawless","sanitary","taintless","unpolluted","unsmudged","unsoiled","unspotted","unstained","unsullied","untarnished","well-kept"],
+        "antonyms": ["unused", "missing", "conflict", "messy", "mess", "cloudy","contaminated","dirty","disorganized","sloppy","slovenly","soiled","tainted","unclean","unsterile","untidy","cluttered","defiled","muddled","polluted","stained"],
         "category": "Security"
     },
     "obedient": {
         "synonyms": ["consistency", "consistent", "standard", "use same", "obedient","deferential","docile","acquiescent","amenable","complaisant","obeisant","pliant","reverential","tame","well-trained","willing","yielding"],
-        "antonyms": ["guess", "disobedient","inconstant","insolent","misbehaving","mutinous","obstinate","rebellious","balky","defiant","incompliant","insubordinate","intractable","noncompliant","rebel","rebellious","recalcitrant","unamenable","unruly","wayward"],
+        "antonyms": ["instead", "guess", "disobedient","inconstant","insolent","misbehaving","mutinous","obstinate","rebellious","balky","defiant","incompliant","insubordinate","intractable","noncompliant","rebel","rebellious","recalcitrant","unamenable","unruly","wayward"],
         "category": "Conformity"
     },
     "self discipline": {
@@ -260,6 +260,5 @@
         "synonyms": ["sustainable","viable","feasible","imperishable","livable"],
         "antonyms": ["untenable","tiring","unendurable","temporary","unsupportable","unsustainable","drain"],
         "category": "Universalism"
-    },
-    "antonym words": ["not", "less"]
+    }
 }

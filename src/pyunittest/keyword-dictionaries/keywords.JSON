@@ -137,7 +137,7 @@
         "category": "Security"
     },
     "healthy": {
-        "synonyms": ["supported", "guarantee", "athletic","hearty","robust","vigorous","virile","sturdy","potent","restored","bouncing","hale"],
+        "synonyms": ["supported", "good state", "guarantee", "athletic","hearty","robust","vigorous","virile","sturdy","potent","restored","bouncing","hale"],
         "antonyms": ["dangerous", "disconnect", "crash", "hang the system", "attention", "corrupt", "try often", "failure", "fault", "defect", "bug", "abort", "fail", "error", "warning", "no guarantee", "delicate","feeble","infirm","lethargic","soft","unhealthy","weak","diseased","fragile","ill","indisposed","sick","ailing","unfit","unsound","unwell","injury"],
         "category": "Security"
     },
