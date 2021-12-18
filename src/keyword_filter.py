@@ -1,7 +1,9 @@
 import os
 import csv
 import re
+from io import StringIO
 import json
+import linecache
 import tempfile
 import chardet
 import sys
@@ -18,7 +20,7 @@ T = TypeVar("T")
 
 class keyword_filter():
     allLines = []
-    dictLocation = "./keyword-dictionaries/keywords-maxed-out.JSON"
+    dictLocation = "./keyword-dictionaries/keywords.JSON"
     dictionary = ""
 
     # values = ['choosing own goals', 'freedom', 'creativity', 'independent', 'privacy', 'choice', 'curious', 'self respect', 'excitement', 'varied', 'daring', 'pleasure', 'self indulgent', 'enjoying', 'ambitious']
@@ -29,6 +31,7 @@ class keyword_filter():
         self.open_file()
         self.get_keywords()
         self.values = self.get_keys_from_json()
+
 
     def get_keys_from_json(self) -> dict[str]:
         res = []
@@ -46,41 +49,100 @@ class keyword_filter():
     @classmethod
     def check_words_in_line(self, words: str, line: str) -> List[str]:
         filteredWords = []
+        word_before = ["un", "dis", "anti", "anti-", "un-"]
+        word_appendages = [ "ing", "s", "ed", "less"]
         for word in words:
-            filter = word
-            # filter = word
-
-            filteredWords += re.findall("\\b" + filter + "\\b", line, flags=re.IGNORECASE)
 
             res = []
-            for string in filteredWords:
-                if string != "":
-                    res.append(string)
+
+            if len( re.findall("\\bcopyright\\b", line, flags=re.IGNORECASE) ) == 0:
+            # filter out copyright comments ###############################################
+                filter = word
+
+                filteredWords += re.findall("\\b" + filter + "\\b", line, flags=re.IGNORECASE)
+                for appendages in word_before:
+                    filteredWords += re.findall("\\b" + appendages + filter + "\\b", line, flags=re.IGNORECASE)
+
+                for appendages in word_appendages:
+                    if appendages == "ing":
+                        filteredWords += re.findall("\\b" + filter[0:-1] + appendages + "\\b", line, flags=re.IGNORECASE)
+                    else:
+                        filteredWords += re.findall("\\b" + filter[0:-1] + appendages + "\\b", line, flags=re.IGNORECASE)
+
+                for string in filteredWords:
+                    if string != "":
+                        res.append(string)
 
         return res
 
+    def get_line_word_size(self, line: str) -> int:
+        number_of_words = len(re.findall(r'\w+', line))
+        return number_of_words
+
+
+    def get_number_of_lines_in_file(self, file: str):
+        with open(file, 'rb') as fp:
+            c_generator = keyword_filter._count_generator(fp.raw.read)
+            count = sum(buffer.count(b'\n') for buffer in c_generator)
+            return count + 1
+
+    @staticmethod
+    def _count_generator(reader):
+        b = reader(1024 * 1024)
+        while b:
+            yield b
+            b = reader(1024 * 1024)
+
     def filter_csv_file(self, filename: str) -> None:
         new_filtered_file = self.create_csv_file()
+        file_size = self.get_number_of_lines_in_file(filename)
 
-        with open(filename, "r", encoding="utf-8") as file:
-            csvfile = csv.DictReader(file)
+        for i in range(1, file_size):
+            first_line = linecache.getline(filename, 1)
+            other_line = linecache.getline(filename, i)
+            f = StringIO(first_line + other_line)
+            line = csv.DictReader(f)
+            line = [single_line for single_line in line][0]
 
-            for line in csvfile:
-                language = line['language']
-                location = line['location']
-                line = line['line']
-                for value in self.values:
-                    category = self.dictionary[value]['category']
-                    synonyms = self.get_synonyms(value)
-                    antonyms = self.get_antonyms(value)
-                    synonyms_in_line = self.check_words_in_line(synonyms, line)
-                    antonyms_in_line = self.check_words_in_line(antonyms, line)
-                    if len(synonyms_in_line) > 0:
-                        self.append_to_csv_file(line, value, category, location, str(synonyms_in_line), language, "conforms with value", new_filtered_file)
-                    if len(antonyms_in_line) > 0:
-                        self.append_to_csv_file(line, value, category, location, str(synonyms_in_line), language, "value violation", new_filtered_file)
 
-            file.close()
+            # for every line file get the language location and check against the values ##
+            language = line['language']
+            location = line['location']
+            line = line['line']
+
+
+            keywords = []
+            description = ""
+            has_keyword = False
+            values = []
+            categories = []
+            for value in self.values:
+
+                category = self.dictionary[value]['category']
+                synonyms = self.get_synonyms(value)
+                antonyms = self.get_antonyms(value)
+                synonyms_in_line = self.check_words_in_line(synonyms, line)
+                antonyms_in_line = self.check_words_in_line(antonyms, line)
+
+                if len(synonyms_in_line) > 0 and self.get_line_word_size(line) >= 3:
+                    has_keyword = True
+                    description = "conforms with value"
+                    keywords = keywords + synonyms_in_line
+                    values.append("obeys " + value.lower())
+                    categories.append(category)
+
+                if len(antonyms_in_line) > 0 and self.get_line_word_size(line) >= 3:
+                    has_keyword = True
+                    if description != "":
+                        description += ", value violation"
+                    else:
+                        description = "value violation"
+                    keywords = keywords + antonyms_in_line
+                    values.append("violates " + value.lower())
+                    categories.append(category)
+
+            if has_keyword:
+                self.append_to_csv_file(line, values, categories, str(keywords), location, language, description, new_filtered_file)
 
     def get_synonyms(self, value: str) -> str:
         return self.dictionary[value]["synonyms"]
@@ -89,8 +151,10 @@ class keyword_filter():
     def get_antonyms(self, value: str) -> str:
         return self.dictionary[value]["antonyms"]
 
+
     def get_all_lines(self) -> List[T]:
         return self.allLines
+
 
     def get_keywords(self) -> List[T]:
         with open(self.dictLocation, encoding="utf-8") as dictionaryFile:
@@ -98,7 +162,7 @@ class keyword_filter():
 
 
     def create_csv_file(self) -> str:
-        fieldnames = ['line', 'location', 'language', 'value', 'category']
+        fieldnames = ['line', 'location', 'language', 'value', 'category', "keywords", "description"]
         counter = 0
         while True:
             filename = "filtered_commentfile" + str( counter ) + ".csv"
@@ -138,6 +202,13 @@ class keyword_filter():
             for line in lines:
                 self.allLines.append(line.strip("\n"))
 
-filter = keyword_filter("./unfiltered/commentfile157.csv")
+filter = keyword_filter("./commentfile106.csv")
 # # print(filter.get_keys_from_json())
-filter.filter_csv_file("./unfiltered/commentfile157.csv")
+filter.filter_csv_file("./commentfile107.csv")
+filter.filter_csv_file("./commentfile108.csv")
+filter.filter_csv_file("./commentfile109.csv")
+filter.filter_csv_file("./commentfile110.csv")
+filter.filter_csv_file("./commentfile114.csv")
+filter.filter_csv_file("./commentfile115.csv")
+filter.filter_csv_file("./commentfile116.csv")
+filter.filter_csv_file("./commentfile117.csv")
