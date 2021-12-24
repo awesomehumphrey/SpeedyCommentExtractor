@@ -57,7 +57,7 @@
         "category": "Stimulation"
     },
     "pleasure": {
-        "synonyms": ["pleasure", "content", "animate", "smart", "simple", "visibility", "selectability", "manually", "fast", "exact", "frequently", "convenient", "easier", "smooth", "slick", "easy", "compact", "soft", "shortcut", "for better", "periodically", "automatically", "timely", "immediate", "pleasure","amusement", "enjoyment","gratification","hobby","joy","buzz","entertainment", "indulgence","recreation","relish","gratification","happy","satisfy","delight"],
+        "synonyms": ["pleasure", "content", "animate", "smart", "simple", "visibility", "selectability", "manually", "fast", "exact", "frequently", "easier", "smooth", "slick", "easy", "compact", "soft", "shortcut", "for better", "periodically", "automatically", "timely", "immediate", "pleasure","amusement", "enjoyment","gratification","hobby","joy","buzz","entertainment", "indulgence","recreation","relish","gratification","happy","satisfy","delight"],
         "antonyms": ["cumbersome", "troublesome", "clunky", "out of luck", "flag", "problem", "crash", "delay", "mess", "slow", "lag", "glitchy", "discontent","displeasure","dissatisfaction","sad","sorrow","chore","dislike","pain","trouble","misery","depression","despondency","aggravation","annoy","exasperation","irritation","anger","agitation","distress","uneasiness","frustration"],
         "category": "Hedonism"
     },
@@ -117,7 +117,7 @@
         "category": "Power"
     },
     "security": {
-        "synonyms": ["lock", "callback", "risk", "validation", "callback", "security","ammunition","armor","defense","guard","munitions","weapon","weaponry","fort","fortress","safety"],
+        "synonyms": ["lock", "callback", "risk", "validate", "validated", "validation", "callback", "security","ammunition","armor","defense","guard","munitions","weapon","weaponry","fort","fortress","safety"],
         "antonyms": ["exposing", "expose", "threat", "access", "unexpected", "leak", "endangerment","harm","danger","insecurity","attack","hazard","risk","threat","instability","liability","violability","vulnerability","vulnerableness","susceptibility","susceptibleness", "unofficial","unsafe"],
         "category": "Security"
     },
@@ -187,7 +187,7 @@
         "category": "Tradition"
     },
     "helpful": {
-        "synonyms": ["how to use", "manual", "guide", "help", "helpful","advantageous","conducive","constructive","convenient","crucial","essential","important","invaluable","profitable","supportive","benevolent","efficient"],
+        "synonyms": ["how to use", "manual", "guide", "help", "helpful","advantageous","conducive","constructive", "convenience", "convenient","crucial","essential","important","invaluable","profitable","supportive","benevolent","efficient"],
         "antonyms": ["hindering","inappropriate","insignificant","nonessential","unfavorable","unfriendly","unhelpful","unimportant","unsuitable","useless","worthless","nonconstructive","inefficient"],
         "category": "Benevolence"
     },
