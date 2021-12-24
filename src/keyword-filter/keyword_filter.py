@@ -8,11 +8,7 @@ import tempfile
 import chardet
 import sys
 import inspect
-# relative imports from parent directory ######################################
-currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
-parentdir = os.path.dirname(currentdir)
-sys.path.insert(0, parentdir)
-# relative import ends ########################################################
+sys.path.append('../../')
 import app
 from typing import TypeVar, Generic, List, NewType
 
@@ -100,8 +96,8 @@ class keyword_filter():
         for i in range(1, file_size):
             first_line = linecache.getline(filename, 1)
             other_line = linecache.getline(filename, i)
-            f = stringio(first_line + other_line)
-            line = csv.dictreader(f)
+            f = StringIO(first_line + other_line)
+            line = csv.DictReader(f)
             line = [single_line for single_line in line][0]
 
 
@@ -155,10 +151,25 @@ class keyword_filter():
     def get_all_lines(self) -> List[T]:
         return self.allLines
 
+    def filter_list_of_files(self, list_of_files: List[T]) -> None:
+        for file in list_of_files:
+            self.filter_csv_file(file)
+
 
     def get_keywords(self) -> List[T]:
         with open(self.dictLocation, encoding="utf-8") as dictionaryFile:
             self.dictionary = json.load(dictionaryFile)
+
+
+    @staticmethod
+    def _get_all_file_in_dir(path: str) -> List[T]:
+        list_of_files = []
+
+        for root, dirs, files in os.walk(path):
+            for file in files:
+                list_of_files.append(os.path.join(root,file))
+
+        return list_of_files
 
 
     def create_csv_file(self) -> str:
@@ -202,13 +213,18 @@ class keyword_filter():
             for line in lines:
                 self.allLines.append(line.strip("\n"))
 
-filter = keyword_filter("./commentfile106.csv")
-# # print(filter.get_keys_from_json())
-filter.filter_csv_file("./commentfile107.csv")
-filter.filter_csv_file("./commentfile108.csv")
-filter.filter_csv_file("./commentfile109.csv")
-filter.filter_csv_file("./commentfile110.csv")
-filter.filter_csv_file("./commentfile114.csv")
-filter.filter_csv_file("./commentfile115.csv")
-filter.filter_csv_file("./commentfile116.csv")
-filter.filter_csv_file("./commentfile117.csv")
+filter = keyword_filter("./k-9_removed_dup/removed_duplicates_commentfile30.csv")
+files = filter._get_all_file_in_dir("./reader")
+filter.filter_list_of_files(files)
+
+# filter.filter_csv_file("./k-9_removed_dup/removed_duplicates_commentfile30.csv")
+# filter = keyword_filter("./k-9_removed_dup/removed_duplicates_commentfile33.csv")
+# filter.filter_csv_file("./k-9_removed_dup/removed_duplicates_commentfile33.csv")
+# filter = keyword_filter("./k-9_removed_dup/removed_duplicates_commentfile31.csv")
+# filter.filter_csv_file("./k-9_removed_dup/removed_duplicates_commentfile31.csv")
+# filter = keyword_filter("./k-9_removed_dup/removed_duplicates_commentfile34.csv")
+# filter.filter_csv_file("./k-9_removed_dup/removed_duplicates_commentfile34.csv")
+# filter = keyword_filter("./k-9_removed_dup/removed_duplicates_commentfile35.csv")
+# filter.filter_csv_file("./k-9_removed_dup/removed_duplicates_commentfile35.csv")
+# filter = keyword_filter("./k-9_removed_dup/removed_duplicates_commentfile32.csv")
+# filter.filter_csv_file("./k-9_removed_dup/removed_duplicates_commentfile32.csv")
