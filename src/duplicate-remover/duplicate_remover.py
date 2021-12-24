@@ -21,7 +21,7 @@ class comment_database:
         if csv_file != None:
             fieldname = self.get_fieldnames_from_csv_file(csv_file, 1)
             self.og_fieldnames = fieldname
-            self.fieldname = self.turn_list_into_fields(fieldname)
+            self.fieldname = self.turn_list_into_fields(fieldname, False)
         self.connection = sqlite3.connect('comments.db')
         self.cur = self.connection.cursor()
         self.execute("""drop table """ + self.tablename)
@@ -125,6 +125,28 @@ class comment_database:
 
             self.insert_line(list_of_values)
 
+    def remove_duplicate_in_list_of_files(self, list_of_files: List[T]) -> None:
+        for file in list_of_files:
+            print("getting: " + file)
+            fieldname = self.get_fieldnames_from_csv_file(file, 1)
+            self.og_fieldnames = fieldname
+            self.fieldname = self.turn_list_into_fields(fieldname, False)
+            self.execute("""drop table """ + self.tablename)
+            self.execute("""create table """ + self.tablename + self.fieldname)
+            self.import_comments_from_csv_file(file)
+            self.remove_duplicates_in_database()
+            self.export_table_to_csv()
+
+    @staticmethod
+    def _get_all_file_in_dir(path: str) -> List[T]:
+        list_of_files = []
+
+        for root, dirs, files in os.walk(path):
+            for file in files:
+                list_of_files.append(os.path.join(root,file))
+
+        return list_of_files
+
 
     @staticmethod
     def _count_generator(reader):
@@ -178,8 +200,9 @@ class comment_database:
     def close_connection(self):
         self.connection.close()
 
-db = comment_database('./filtered_commentfile11.csv')
-print(db.import_comments_from_csv_file("./filtered_commentfile11.csv"))
+db = comment_database("./commentfile57.csv")
+list_of_files = comment_database._get_all_file_in_dir("./pixel_dungeon")
+db.remove_duplicate_in_list_of_files(list_of_files)
 db.remove_duplicates_in_database()
 db.export_table_to_csv()
 db.close_connection()
