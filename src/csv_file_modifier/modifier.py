@@ -71,12 +71,12 @@ class csv_modifier():
         file.close()
 
 
-    def get_fieldnames_from_csv_file(self, filename: str, line: int) -> List[T]:
-            first_line = linecache.getline(filename, 1)
-            f = StringIO(first_line)
-            line = csv.reader(f, delimiter = ',')
-            line = [single_line for single_line in line][0]
-            return line
+    def get_fieldnames_from_csv_file(self, filename: str) -> List[T]:
+        first_line = linecache.getline(filename, 1)
+        f = StringIO(first_line)
+        line = csv.reader(f, delimiter = ',')
+        line = [single_line for single_line in line][0]
+        return line
 
 
     @classmethod
@@ -141,24 +141,30 @@ class csv_modifier():
         return False
 
 
-    def create_csv_file(self, fieldnames: List[T], base_file_name: str) -> str:
+    def create_csv_file(self, fieldnames: List[T], base_file_name: str, filetype: str="csv") -> str:
+
         counter = 0
 
         while True:
-            filename = base_file_name + str( counter ) + ".csv"
+
+            filename = base_file_name + str( counter ) + "." + filetype
+
             if len(self.search_file(filename, './')) == 0:
-                f = open(filename, "w")
-                writer = csv.DictWriter(f, fieldnames=fieldnames)
-                writer.writeheader()
-                f.close()
-                break
+
+                with open(filename, "w") as f:
+                    if filetype == "csv":
+                        writer = csv.DictWriter(f, fieldnames=fieldnames)
+                        writer.writeheader()
+                        f.close()
+                    break
+
             counter += 1
 
         return filename
 
 
     def open_file(self, csv_file: str) -> None:
-            fieldname = self.get_fieldnames_from_csv_file(csv_file, 1)
+            fieldname = self.get_fieldnames_from_csv_file(csv_file)
             self.og_fieldnames = fieldname
             self.fieldname = self.turn_list_into_fields(fieldname)
 
