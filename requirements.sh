@@ -6,7 +6,9 @@ python3 -m venv env
 source env/bin/activate
 pip install GitPython
 pip install chardet # 4.0.0
+pip install nltk
 pip install pylint
+pip install git
 pip install shutil
 pip install pandas
 pip install matplotlib
