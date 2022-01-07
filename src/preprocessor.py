@@ -156,4 +156,3 @@ class preprocess():
 
         self.create_dist_file("frequency_dictionary_for_" + base_file_name)
         return base_file_name
-
