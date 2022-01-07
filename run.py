@@ -1,5 +1,7 @@
 import app
 import sys
+from src import preprocess as pre
+from src import comment_database as cdb
 
 ###############################################################################
 #               The run for the comment-extractor application              #
@@ -28,6 +30,14 @@ elif length >= 3:
         repo = sys.argv[2]
         branch = sys.argv[3]
         app.get_comment_from_repo_using_all_languages(repo , branch, './')
+    elif command1 == "-process":
+      process = pre(sys.argv[2])
+      process.create_new_processed_file()
+    elif command1 == "-duplicate":
+      comment_db = cdb(sys.argv[2])
+      comment_db.remove_duplicates_in_database()
+      comment_db.export_table_to_csv()
+
 
 
 # app.get_comment_from_repo_using_all_languages("https://github.com/k9mail/k-9.git", "main", "./commentfiles/")

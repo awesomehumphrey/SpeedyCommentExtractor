@@ -9,9 +9,7 @@ from typing import TypeVar, Generic, List, NewType
 from nltk.tokenize import word_tokenize
 from nltk import ngrams
 from io import StringIO
-sys.path.append('../csv_file_modifier/')
-
-from modifier import csv_modifier as cm
+from src.csv_file_modifier.modifier import csv_modifier as cm
 
 nltk.download('punkt')
 nltk.download('stopwords')
@@ -78,7 +76,7 @@ class preprocess():
     def process_comment(self, comment: dict) -> List[T]:
         tokens = self.tokenise(comment['line'])
 
-        # Remove punctuation ############################################### 
+        # Remove punctuation ###############################################
         tokens = [word for word in tokens if word.isalpha()]
 
         # case normalisation ##########################################################
@@ -133,7 +131,7 @@ class preprocess():
 
             tokens = self.tokenise(line['line'])
 
-            # Remove punctuation ############################################### 
+            # Remove punctuation ###############################################
             tokens = [word for word in tokens if word.isalpha()]
 
             # case normalisation ##########################################################
@@ -148,16 +146,13 @@ class preprocess():
             line['trigram'] = trigram
             line['comment length'] = len(tokens)
 
-            columns = []
+            row = []
 
             for value_name in line:
-                columns.append(line[ value_name ])
+                row.append(line[ value_name ])
 
-            self.modified_csv_file.append_to_csv_file(self.fieldname, columns, newfile)
+            if len(line['line']) >= 3:
+                self.modified_csv_file.append_to_csv_file(self.fieldname, row, newfile)
 
         self.create_dist_file("frequency_dictionary_for_" + base_file_name)
         return base_file_name
-
-
-a = preprocess('filtered_commentfile3.csv')
-a.create_new_processed_file()

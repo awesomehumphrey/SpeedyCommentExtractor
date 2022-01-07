@@ -26,6 +26,8 @@ class comment_database:
         self.cur = self.connection.cursor()
         self.execute("""drop table """ + self.tablename)
         self.execute("""create table """ + self.tablename + self.fieldname)
+        if csv_file != None:
+            self.import_comments_from_csv_file(csv_file)
         self.commit()
 
 
@@ -199,10 +201,3 @@ class comment_database:
 
     def close_connection(self):
         self.connection.close()
-
-db = comment_database("./commentfile57.csv")
-list_of_files = comment_database._get_all_file_in_dir("./pixel_dungeon")
-db.remove_duplicate_in_list_of_files(list_of_files)
-db.remove_duplicates_in_database()
-db.export_table_to_csv()
-db.close_connection()
