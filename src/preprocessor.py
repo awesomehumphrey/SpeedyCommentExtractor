@@ -76,7 +76,7 @@ class preprocess():
     def process_comment(self, comment: dict) -> List[T]:
         tokens = self.tokenise(comment['line'])
 
-        # Remove punctuation ############################################### 
+        # Remove punctuation ###############################################
         tokens = [word for word in tokens if word.isalpha()]
 
         # case normalisation ##########################################################
@@ -131,7 +131,7 @@ class preprocess():
 
             tokens = self.tokenise(line['line'])
 
-            # Remove punctuation ############################################### 
+            # Remove punctuation ###############################################
             tokens = [word for word in tokens if word.isalpha()]
 
             # case normalisation ##########################################################
@@ -156,4 +156,3 @@ class preprocess():
 
         self.create_dist_file("frequency_dictionary_for_" + base_file_name)
         return base_file_name
-
