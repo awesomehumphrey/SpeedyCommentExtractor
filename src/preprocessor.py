@@ -7,6 +7,7 @@ import sys
 import git
 from typing import TypeVar, Generic, List, NewType
 from nltk.tokenize import word_tokenize
+from nltk.stem import PorterStemmer
 from nltk import ngrams
 from io import StringIO
 from src.csv_file_modifier.modifier import csv_modifier as cm
@@ -22,7 +23,7 @@ from nltk import FreqDist
 T = TypeVar("T")
 
 class preprocess():
-    stopwords = sw.words('english')
+
     def __init__(self, csv_file: str=None) -> None:
         self.filename = csv_file
         self.modified_csv_file = cm(csv_file)
@@ -74,6 +75,10 @@ class preprocess():
 
 
     def process_comment(self, comment: dict) -> List[T]:
+
+        ps = PorterStemmer()
+        stopwords = sw.words('english')
+
         tokens = self.tokenise(comment['line'])
 
         # Remove punctuation ############################################### 
@@ -84,6 +89,15 @@ class preprocess():
 
         # remove stopwords #################################s #########################
         tokens = [word for word in tokens if word not in self.stopwords]
+
+
+        res = []
+        for word in tokens:
+            if word.isalpha():
+                word = word.lower()
+                if word not in stopwords:
+                    word = ps.stem(word)
+                    res.append(word)
 
         return tokens
 
