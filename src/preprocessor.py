@@ -28,8 +28,11 @@ class preprocess():
         self.filename = csv_file
         self.modified_csv_file = cm(csv_file)
         self.fieldname = self.modified_csv_file.get_og_filenames()
+
         # TODO eliminate connascence of execution
+
         self.add_filed_to_fieldname("original comment")
+        self.add_filed_to_fieldname("new line")
         self.add_filed_to_fieldname("trigram")
         self.add_filed_to_fieldname("comment length")
 
@@ -54,7 +57,7 @@ class preprocess():
             line = csv.DictReader(f)
             line = [single_line for single_line in line][0]
 
-            freq_tri = FreqDist(self.process_comment(line))
+            freq_tri = FreqDist(self.process_comment(line)[1])
 
             for keyword in freq_tri:
 
@@ -81,30 +84,22 @@ class preprocess():
 
         tokens = self.tokenise(comment['line'])
 
-        # Remove punctuation ############################################### 
-        tokens = [word for word in tokens if word.isalpha()]
-
-        # case normalisation ##########################################################
-        tokens = [word.lower() for word in tokens]
-
-        # remove stopwords #################################s #########################
-        tokens = [word for word in tokens if word not in self.stopwords]
-
-
-        res = []
+        res = ""
+        res2 = []
         for word in tokens:
             if word.isalpha():
                 word = word.lower()
                 if word not in stopwords:
                     word = ps.stem(word)
-                    res.append(word)
+                    res = res + " " + word
+                    res2.append(word)
 
-        return tokens
+        return res, res2
 
 
     def create_trigram(self, line: dict) -> List[T]:
 
-        tokens = self.process_comment(line)
+        _, tokens = self.process_comment(line)
 
         trigram = []
 
@@ -143,27 +138,20 @@ class preprocess():
 
             line['original comment'] = line['line']
 
-            tokens = self.tokenise(line['line'])
-
-            # Remove punctuation ############################################### 
-            tokens = [word for word in tokens if word.isalpha()]
-
-            # case normalisation ##########################################################
-            tokens = [word.lower() for word in tokens]
-
-            # remove stopwords #################################s #########################
-            tokens = [word for word in tokens if word not in self.stopwords]
+            new_line, tokens = self.process_comment(line)
 
             trigram = self.create_trigram(line)
 
             line['line'] = tokens
+            line['new line'] = new_line
             line['trigram'] = trigram
             line['comment length'] = len(tokens)
 
             row = []
 
-            for value_name in line:
-                row.append(line[ value_name ])
+            for column_name in line:
+                row.append(line[column_name])
+
 
             if len(line['line']) >= 3:
                 self.modified_csv_file.append_to_csv_file(self.fieldname, row, newfile)

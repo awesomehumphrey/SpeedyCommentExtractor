@@ -37,6 +37,8 @@ elif length >= 3:
       comment_db = cdb(sys.argv[2])
       comment_db.remove_duplicates_in_database()
       comment_db.export_table_to_csv()
+    elif command1 == '-auto':
+      leng = len(sys.argv[2])
 
 
 
