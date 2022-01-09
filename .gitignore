@@ -1,4 +1,5 @@
 .DS_Store
+otherfiles
 *.csv
 test-folder
 __pycache__
