@@ -46,11 +46,13 @@ class comment_database:
             """)
         self.commit()
 
-    def export_table_to_csv(self) -> None:
+    def export_table_to_csv(self) -> str:
         filename = self.create_csv_file(self.og_fieldnames)
         values = self.get_fields()
         for value in values:
             self.append_to_csv_file(self.og_fieldnames, value, filename)
+
+        return filename
 
 
     def append_to_csv_file(self, fields: List[T], values: List[T], filename: str ) -> None:
