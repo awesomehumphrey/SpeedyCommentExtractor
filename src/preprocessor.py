@@ -1,5 +1,6 @@
 import nltk
 import csv
+import string
 import chardet
 import linecache
 import inspect
@@ -25,16 +26,17 @@ T = TypeVar("T")
 class preprocess():
 
     def __init__(self, csv_file: str=None) -> None:
-        self.filename = csv_file
-        self.modified_csv_file = cm(csv_file)
-        self.fieldname = self.modified_csv_file.get_og_filenames()
+        if csv_file is not None:
+            self.filename = csv_file
+            self.modified_csv_file = cm(csv_file)
+            self.fieldname = self.modified_csv_file.get_og_filenames()
 
-        # TODO eliminate connascence of execution
+            # TODO eliminate connascence of execution
 
-        self.add_filed_to_fieldname("original comment")
-        self.add_filed_to_fieldname("new line")
-        self.add_filed_to_fieldname("trigram")
-        self.add_filed_to_fieldname("comment length")
+            self.add_filed_to_fieldname("original comment")
+            self.add_filed_to_fieldname("new line")
+            self.add_filed_to_fieldname("trigram")
+            self.add_filed_to_fieldname("comment length")
 
 
     def add_filed_to_fieldname(self, new_field: str) -> None:
@@ -81,18 +83,23 @@ class preprocess():
 
         ps = PorterStemmer()
         stopwords = sw.words('english')
+        # source: https://stackoverflow.com/questions/15547409/how-to-get-rid-of-punctuation-using-nltk-tokenizer#15555162
+        translate_table = dict((ord(char), None) for char in string.punctuation)
 
-        tokens = self.tokenise(comment['line'])
+        line = comment['line'].translate(translate_table)
+        tokens = self.tokenise(line)
 
         res = ""
         res2 = []
         for word in tokens:
-            if word.isalpha():
-                word = word.lower()
-                if word not in stopwords:
-                    word = ps.stem(word)
+            word = word.lower()
+            if word not in stopwords:
+                word = ps.stem(word)
+                if res != "":
                     res = res + " " + word
-                    res2.append(word)
+                else:
+                    res = word
+                res2.append(word)
 
         return res, res2
 
