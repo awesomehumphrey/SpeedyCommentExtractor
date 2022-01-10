@@ -31,12 +31,18 @@ elif length >= 3:
         branch = sys.argv[3]
         app.get_comment_from_repo_using_all_languages(repo , branch, './')
     elif command1 == "-process":
-      process = pre(sys.argv[2])
-      process.create_new_processed_file()
+      leng = len(sys.argv)
+      for i in range(2, leng):
+        print("processing file: " + sys.argv[i])
+        process = pre(sys.argv[i])
+        process.create_new_processed_file()
     elif command1 == "-duplicate":
-      comment_db = cdb(sys.argv[2])
-      comment_db.remove_duplicates_in_database()
-      comment_db.export_table_to_csv()
+      leng = len(sys.argv)
+      duplicated_files = []
+      for i in range(2, len(sys.argv)):
+        comment_db = cdb(sys.argv[i])
+        comment_db.remove_duplicates_in_database()
+        comment_db.export_table_to_csv()
     elif command1 == '-auto':
       leng = len(sys.argv)
       duplicated_files = []
@@ -45,11 +51,14 @@ elif length >= 3:
         comment_db.remove_duplicates_in_database()
         duplicated_files.append( comment_db.export_table_to_csv() )
 
-      print(duplicated_files)
-
       for each_file in duplicated_files:
-        process = pre(each_file)
+        process = pre("./" + each_file)
         process.create_new_processed_file()
+
+    elif command1 == "-comment":
+      process = pre()
+      stuff_to_process = {'line': sys.argv[2]}
+      print(process.process_comment(stuff_to_process))
 
 
 # app.get_comment_from_repo_using_all_languages("https://github.com/k9mail/k-9.git", "main", "./commentfiles/")
